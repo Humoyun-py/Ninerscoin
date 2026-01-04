@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>User Management | Niners.uz</title>
+    <link rel="stylesheet" href="../../styles/main.css">
+    <script src="../../js/translations.js"></script>
+</head>
+
+<body class="dashboard-grid">
+    <div id="sidebarContainer"></div>
+    <main class="main-content">
+        <header style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+            <div>
+                <h2>User Management</h2>
+                <p style="color: var(--text-muted);">List of all students, teachers, and other users.</p>
+            </div>
+            <div style="display: flex; gap: 12px;">
+                <button onclick="AdminModule.addUser('student')" class="btn btn-primary">+ New Student</button>
+                <button onclick="AdminModule.addUser('teacher')" class="btn btn-secondary">+ New Teacher</button>
+            </div>
+        </header>
+
+        <div class="card" style="padding: 0; overflow: hidden;">
+            <div class="table-wrapper">
+                <table style="width: 100%; border-collapse: collapse;">
+                    <thead>
+                        <tr
+                            style="background: #FAFAFA; border-bottom: 2px solid var(--border-light); text-align: left;">
+                            <th style="padding: 16px;">Full Name</th>
+                            <th style="padding: 16px;">Username</th>
+                            <th style="padding: 16px;">Role</th>
+                            <th style="padding: 16px;">Status</th>
+                            <th style="padding: 16px;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="fullUserTableBody">
+                        <tr>
+                            <td colspan="5" style="text-align:center; padding:40px;">Loading...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+    </div>
+    <script src="../../js/api.js"></script>
+    <script src="../../js/admin.js"></script>
+    <script src="../../js/sidebar-loader.js"></script>
+    <script>
+        async function loadAllUsers() {
+            LanguageModule.init();
+            try {
+                const users = await api.get('/admin/users');
+                const tbody = document.getElementById('fullUserTableBody');
+                tbody.innerHTML = users.map(u => `
+                    <tr style="border-bottom: 1px solid var(--border-light); transition: 0.2s;" onmouseover="this.style.background='#F9FAFB'" onmouseout="this.style.background='white'">
+                        <td style="padding: 16px; font-weight: 700;">
+                            ${u.full_name}
+                            ${!u.is_active ? `
+                                <div style="font-size:0.75rem; color:#C62828; font-weight:400; margin-top:4px; background: #FFF0F0; padding: 4px 8px; border-radius: 4px; display: inline-block;">
+                                    ⚠️ Reason: ${u.block_reason || 'None'} | Debt: ${u.debt_amount ? u.debt_amount.toLocaleString() : 0} sum
+                                </div>
+                            ` : ''}
+                        </td>
+                        <td style="padding: 16px; color: var(--text-muted);">${u.username}</td>
+                        <td style="padding: 16px;">
+                            <span style="background:${AdminModule.getRoleColor(u.role)}; color:white; padding:4px 10px; border-radius:6px; font-size:0.8rem; font-weight:700; text-transform:uppercase;">
+                                ${u.role}
+                            </span>
+                        </td>
+                        <td style="padding: 16px;">
+                            <span style="color:${u.is_active ? '#2E7D32' : '#C62828'}; font-weight:700;">
+                                ${u.is_active ? '● Active' : '● Blocked'}
+                            </span>
+                        </td>
+                        <td style="padding: 16px; display: flex; gap: 8px;">
+                            <button onclick="AdminModule.toggleUserStatus(${u.id})" class="btn" style="padding: 6px 12px; font-size: 0.8rem; background: ${u.is_active ? '#FFF0F0' : '#E8F5E9'}; color: ${u.is_active ? '#C62828' : '#2E7D32'}; border: none;">
+                                ${u.is_active ? 'Block' : 'Unblock'}
+                            </button>
+                            <button onclick="AdminModule.editUser(${u.id})" class="btn btn-secondary" style="padding: 6px 12px; font-size: 0.8rem; border-color: #EEE;">Edit</button>
+                        </td>
+                    </tr>
+                `).join('');
+            } catch (e) {
+                console.error(e);
+            }
+        }
+        loadAllUsers();
+    </script>
+
+</body>
+
+</html>

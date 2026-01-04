@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Class Management | Niners.uz</title>
+    <link rel="stylesheet" href="../../styles/main.css">
+    <script src="../../js/translations.js"></script>
+</head>
+
+<body class="dashboard-grid">
+    <div id="sidebarContainer"></div>
+    <main class="main-content">
+        <header style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+            <div>
+                <h2>Group Management</h2>
+                <p style="color: var(--text-muted);">Existing groups and teachers assigned to them.</p>
+            </div>
+            <button onclick="AdminModule.createClass()" class="btn btn-primary">+ New Group</button>
+        </header>
+
+        <div id="classesGrid"
+            style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px;">
+            <!-- DYNAMIC -->
+            <p>Loading...</p>
+        </div>
+    </main>
+
+    <script src="../../js/api.js"></script>
+    <script src="../../js/admin.js"></script>
+    <script src="../../js/sidebar-loader.js"></script>
+    <script>
+        async function loadClasses() {
+            try {
+                const classes = await api.get('/admin/classes');
+                const users = await api.get('/admin/users');
+                const teacherMap = {};
+                users.filter(u => u.role === 'teacher').forEach(t => teacherMap[t.id] = t.full_name);
+
+                const grid = document.getElementById('classesGrid');
+                grid.innerHTML = classes.map(c => `
+                    <div class="card" style="position: relative;">
+                        <h3 style="font-size: 1.5rem; margin-bottom: 8px;">${c.name}</h3>
+                        <p style="color: var(--text-muted); font-size: 0.9rem;">Teacher: <span style="font-weight: 700; color: var(--text-dark);">${teacherMap[c.teacher_id] || 'Unknown'}</span></p>
+                        <div style="margin-top: 15px; display: flex; flex-direction: column; gap: 12px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <span style="background: #E3F2FD; color: #1565C0; padding: 4px 10px; border-radius: 6px; font-weight: 700; font-size: 0.8rem;">
+                                    ${c.student_count} Students
+                                </span>
+                                <div style="display: flex; gap: 8px;">
+                                    <button onclick="AdminModule.editClass(${c.id})" class="btn btn-secondary" style="padding: 5px 10px; font-size: 0.75rem;">Edit</button>
+                                    <button onclick="AdminModule.deleteClass(${c.id})" class="btn" style="padding: 5px 10px; font-size: 0.75rem; background: #FFF0F0; color: #DC3545; border: none;">Del</button>
+                                </div>
+                            </div>
+                            <button onclick="AdminModule.assignStudentToClass(${c.id})" class="btn btn-primary" style="width: 100%; font-size: 0.8rem; padding: 8px;">+ Add Student</button>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        async function init() {
+            LanguageModule.init();
+            await loadClasses();
+        }
+    </script>
+    </main>
+    </div>
+</body>
+
+</html>

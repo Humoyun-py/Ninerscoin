@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Notifications | Niners.uz</title>
+    <link rel="stylesheet" href="../../styles/main.css">
+</head>
+
+<body>
+    <div class="dashboard-grid">
+        <div id="sidebarContainer"></div>
+        <main class="main-content">
+            <h2>Bildirishnomalar</h2>
+            <div id="notif-list" style="margin-top:24px;">
+                <div class="card"
+                    style="background:white; padding:16px; border-radius:12px; margin-bottom:12px; display:flex; gap:16px; align-items:center;">
+                    <div
+                        style="background:#FFF9E6; color:var(--primary); padding:10px; border-radius:50%; font-weight:700;">
+                        !</div>
+                    <div>
+                        <div style="font-weight:600;">Yangi yutuq!</div>
+                        <div style="font-size:0.9rem; color:var(--text-muted);">Farzandingiz Aziz "Centurion" nishonini
+                            qo'lga kiritdi.</div>
+                        <div style="font-size:0.75rem; color:#CCC; margin-top:4px;">1 soat oldin</div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="../../js/api.js"></script>
+    <script>
+        fetch('../../components/sidebar.html').then(res => res.text()).then(html => document.getElementById('sidebarContainer').innerHTML = html);
+
+        async function loadNotifications() {
+            try {
+                // For parent we would need a specific endpoint, using student endpoint for demo
+                const data = await api.get('/student/notifications');
+                const list = document.getElementById('notif-list');
+                if (data && data.length > 0) {
+                    list.innerHTML = data.map(n => `
+                        <div class="card" style="background:white; padding:16px; border-radius:12px; margin-bottom:12px; display:flex; gap:16px; align-items:center;">
+                            <div style="background:${n.is_read ? '#EEE' : '#FFF9E6'}; color:var(--primary); padding:10px; border-radius:50%; font-weight:700;">!</div>
+                            <div>
+                                <div style="font-weight:600;">${n.title}</div>
+                                <div style="font-size:0.9rem; color:var(--text-muted);">${n.message}</div>
+                                <div style="font-size:0.75rem; color:#CCC; margin-top:4px;">${new Date(n.date).toLocaleString()}</div>
+                            </div>
+                        </div>
+                    `).join('');
+                }
+            } catch (e) { console.error(e); }
+        }
+        loadNotifications();
+    </script>
+</body>
+
+</html>

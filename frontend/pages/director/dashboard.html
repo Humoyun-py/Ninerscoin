@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Director Dashboard | Niners.uz</title>
+    <link rel="stylesheet" href="../../styles/main.css">
+</head>
+
+<body class="dashboard-grid">
+    <div id="sidebarContainer"></div>
+    <main class="main-content">
+        <header style="margin-bottom: 40px;">
+            <h2 data-i18n="director_title">Director Executive Dashboard</h2>
+            <p style="color:var(--text-muted);" data-i18n="director_subtitle">Overview of system performance and
+                administrative approvals.</p>
+        </header>
+
+        <section id="approvalRequests" style="margin-bottom: 40px;">
+            <h3 style="margin-bottom: 20px;" data-i18n="pending_approvals">🛎️ Pending Approvals</h3>
+            <div id="requestsList" style="display: grid; gap: 16px;">
+                <p data-i18n="loading_data">Loading requests...</p>
+            </div>
+        </section>
+
+        <section style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px;">
+            <div class="card">
+                <h3 data-i18n="instructor_rankings">Instructor Rankings</h3>
+                <div id="teacherRating" style="margin-top: 20px;"></div>
+            </div>
+            <div class="card" style="background: var(--primary-gradient); color: var(--text-dark);">
+                <h3 data-i18n="school_policy">School Policy</h3>
+                <p style="margin-top: 10px; font-weight: 600;">Daily Coin Limit (Approved): 50 🟡
+                </p>
+                <button class="btn btn-secondary" style="margin-top: 20px; border: none;"
+                    data-i18n="adjust_limit">Adjust Limit</button>
+            </div>
+        </section>
+    </main>
+
+        </main>
+    </div>
+    <script src="../../js/translations.js"></script>
+    <script src="../../js/api.js"></script>
+    <script src="../../js/sidebar-loader.js"></script>
+    <script>
+        async function loadRequests() {
+            try {
+                const reqs = await api.get('/director/approval-requests');
+                const list = document.getElementById('requestsList');
+                if (reqs.length === 0) {
+                    list.innerHTML = `<div class="card" style="text-align:center; color:#999;">${t('no_pending_requests')}</div>`;
+                    return;
+                }
+                list.innerHTML = reqs.map(r => `
+                    <div class="card" style="display:flex; justify-content:space-between; align-items:center; flex-wrap: wrap; gap: 15px;">
+                        <div>
+                            <div style="font-weight:800; font-size:1.1rem;">${r.title}</div>
+                            <div style="color:#666; font-size:0.9rem;">${r.description}</div>
+                            <div style="font-size:0.75rem; color:#999; margin-top:5px;">Sent by: ${r.admin} | ${new Date(r.timestamp).toLocaleString()}</div>
+                        </div>
+                        <div style="display:flex; gap:10px;">
+                            <button onclick="actionRequest(${r.id}, 'approved')" class="btn btn-primary" style="background:#2E7D32; color:white;">${t('approve')}</button>
+                            <button onclick="actionRequest(${r.id}, 'rejected')" class="btn btn-secondary" style="color:#C62828; border-color:#FFEBEE;">${t('reject')}</button>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (e) { console.error(e); }
+        }
+
+        async function actionRequest(id, status) {
+            try {
+                await api.post(`/director/approval-requests/${id}/action`, { status: status });
+                alert(`Request ${status === 'approved' ? 'approved' : 'rejected'}`);
+                loadRequests();
+            } catch (e) { alert("Error"); }
+        }
+
+        async function init() {
+            LanguageModule.init();
+            await loadRequests();
+        }
+        init();
+    </script>
+</body>
+
+</html>

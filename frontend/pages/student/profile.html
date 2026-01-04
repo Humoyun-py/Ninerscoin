@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile | Niners.uz</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <style>
+        .badge-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .badge-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .badge-item.earned {
+            background: white;
+            box-shadow: var(--shadow-soft);
+            border: 2px solid #FFD700;
+        }
+
+        .badge-item.locked {
+            filter: grayscale(100%);
+            opacity: 0.6;
+        }
+
+        .badge-icon {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .badge-name {
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-bottom: 4px;
+        }
+
+        .badge-desc {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="dashboard-grid">
+        <div id="sidebarContainer"></div>
+        <main class="main-content">
+            <header style="margin-bottom: 32px;">
+                <h2>Profile Settings</h2>
+                <p style="color: var(--text-muted);">Manage your personal information</p>
+            </header>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+                <!-- Profile Form -->
+                <div class="card"
+                    style="background: white; padding: 40px; border-radius: var(--radius-lg); box-shadow: var(--shadow-soft);">
+                    <div
+                        style="display: flex; align-items: center; gap: 24px; margin-bottom: 32px; padding-bottom: 32px; border-bottom: 1px solid #F0F2F5;">
+                        <div id="profileAvatar"
+                            style="width: 80px; height: 80px; background: var(--primary-gradient); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 2rem; font-weight: 700; box-shadow: 0 10px 20px rgba(255, 210, 0, 0.2);">
+                            ?
+                        </div>
+                        <div>
+                            <h3 id="displayFullName" style="margin: 0;">User</h3>
+                            <p id="displayUsername" style="color: var(--text-muted); margin: 4px 0 0 0;">@username</p>
+                        </div>
+                    </div>
+
+                    <form id="profileForm" style="display: flex; flex-direction: column; gap: 20px;">
+                        <div class="form-group">
+                            <label style="display: block; margin-bottom: 8px; font-weight: 600; font-size: 0.9rem;">Full
+                                Name</label>
+                            <input type="text" id="fullNameInput" class="form-control" style="width: 100%;" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label
+                                style="display: block; margin-bottom: 8px; font-weight: 600; font-size: 0.9rem;">Email
+                                Address</label>
+                            <input type="email" id="emailInput" class="form-control" style="width: 100%;" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label
+                                style="display: block; margin-bottom: 8px; font-weight: 600; font-size: 0.9rem;">Role</label>
+                            <input type="text" id="roleDisplay" class="form-control"
+                                style="width: 100%; background: #F8F9FA; cursor: not-allowed;" readonly>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary"
+                            style="margin-top: 10px; width: 100%; padding: 14px; font-weight: 700;">
+                            Save Changes
+                        </button>
+                    </form>
+                </div>
+
+                <!-- My Badges -->
+                <div class="card"
+                    style="background: white; padding: 30px; border-radius: var(--radius-lg); box-shadow: var(--shadow-soft);">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <h3 style="margin: 0;">My Badges</h3>
+                        <span style="font-size: 0.8rem; background: #EEE; padding: 4px 10px; border-radius: 20px;">🏆
+                            Collection</span>
+                    </div>
+                    <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 8px;">Complete tasks to unlock
+                        badges!</p>
+
+                    <div id="badgesContainer" class="badge-grid">
+                        <p>Loading badges...</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="../../js/api.js"></script>
+    <script src="../../js/sidebar-loader.js"></script>
+    <script>
+        async function loadProfile() {
+            try {
+                // Load User Data
+                const user = await api.get('/auth/me');
+                document.getElementById('fullNameInput').value = user.full_name;
+                document.getElementById('emailInput').value = user.email;
+                document.getElementById('roleDisplay').value = user.role.charAt(0).toUpperCase() + user.role.slice(1);
+
+                document.getElementById('displayFullName').innerText = user.full_name;
+                document.getElementById('displayUsername').innerText = `@${user.username}`;
+                document.getElementById('profileAvatar').innerText = user.full_name[0].toUpperCase();
+
+                // Load Badges
+                loadBadges();
+            } catch (e) {
+                console.error(e);
+                alert("Could not load profile data.");
+            }
+        }
+
+        async function loadBadges() {
+            try {
+                const badges = await api.get('/student/my-badges');
+                const container = document.getElementById('badgesContainer');
+
+                if (badges.length === 0) {
+                    container.innerHTML = '<p style="grid-column: 1/-1; color: var(--text-muted);">No badges available yet.</p>';
+                    return;
+                }
+
+                container.innerHTML = badges.map(b => `
+                    <div class="badge-item ${b.is_earned ? 'earned' : 'locked'}" title="${b.requirement_text || 'Secret Task'}">
+                        <div class="badge-icon">${b.icon || '🏅'}</div>
+                        <div class="badge-name">${b.name}</div>
+                        <div class="badge-desc">${b.requirement_text || 'Locked'}</div>
+                    </div>
+                `).join('');
+            } catch (e) {
+                console.error("Badge load error", e);
+            }
+        }
+
+        document.getElementById('profileForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const full_name = document.getElementById('fullNameInput').value;
+            const email = document.getElementById('emailInput').value;
+
+            try {
+                await api.patch('/auth/profile', { full_name, email });
+                localStorage.setItem('user_name', full_name);
+                alert("Profile updated successfully! ✨");
+                location.reload();
+            } catch (err) {
+                alert("Error: " + err.message);
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', loadProfile);
+    </script>
+</body>
+
+</html>

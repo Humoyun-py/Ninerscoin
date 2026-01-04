@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Niners.uz | Smart Gamified Education Platform</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles/main.css">
+    <style>
+        body {
+            overflow-x: hidden;
+        }
+
+        .hero {
+            min-height: 90vh;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 10%;
+            background: radial-gradient(circle at 80% 20%, #FFF9E6 0%, #FFFFFF 50%);
+        }
+
+        .hero-text h1 {
+            font-size: 5rem;
+            font-weight: 800;
+            line-height: 1;
+            margin-bottom: 30px;
+            letter-spacing: -2px;
+        }
+
+        .hero-text h1 span {
+            color: var(--primary);
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-text p {
+            font-size: 1.3rem;
+            color: var(--text-muted);
+            max-width: 550px;
+            margin-bottom: 40px;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 20px 10%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            transition: 0.3s;
+        }
+
+        header.scrolled {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+        }
+
+        .floating-coin {
+            position: absolute;
+            font-size: 3rem;
+            animation: float 6s infinite ease-in-out;
+            opacity: 0.6;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0) rotate(0);
+            }
+
+            50% {
+                transform: translateY(-20px) rotate(15deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header id="mainHeader">
+        <div class="logo" style="font-size: 1.8rem; font-weight: 800;"><span>NINERS</span>.UZ</div>
+        <nav style="display:flex; gap:30px; align-items:center;">
+            <a href="login.html" style="font-weight:700; color:var(--text-dark);  text-decoration: none"
+                data-i18n="landing_btn_login">Kirish</a>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="hero-text">
+            <div style="background: #FFF9E6; color: #FFA500; padding: 6px 16px; border-radius: 20px; font-weight: 800; font-size: 0.8rem; display: inline-block; margin-bottom: 20px; letter-spacing: 1px;"
+                data-i18n="landing_badge_text">
+                🚀 O'ZBEKISTONDAGI BIRINCHI GAMIFIED TA'LIM PLATFORMASI</div>
+            <h1 data-i18n="landing_hero_title">Bilim Oling,<br><span>Coin</span> Yuting.</h1>
+            <p data-i18n="landing_hero_desc">Niners.uz – intizom, bilim va faollikni baholashning zamonaviy usuli.
+                O'qing, test topshiring va virtual
+                coinlarni real imkoniyatlarga almashtiring.</p>
+            <div style="display: flex; gap: 20px;">
+                <a href="login.html" class="btn btn-primary"
+                    style="padding: 16px 32px; font-size: 1.1rem; text-decoration: none"
+                    data-i18n="landing_btn_login">Tizimga
+                    kirish</a>
+                <a href="#" class="btn btn-secondary"
+                    style="padding: 16px 32px; font-size: 1.1rem; border-color: #EEE; text-decoration: none"
+                    data-i18n="landing_btn_contact">Biz bilan bog'lanish</a>
+            </div>
+        </div>
+        <div class="hero-image" style="position: relative;">
+            <div
+                style="width: 500px; height: 500px; background: var(--primary-gradient); border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; opacity: 0.1; animation: morph 10s infinite alternate;">
+            </div>
+            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center;">
+                <div style="font-size: 12rem; filter: drop-shadow(0 20px 40px rgba(255, 215, 0, 0.4));">🟡</div>
+                <div style="font-weight: 900; font-size: 2.5rem; color: var(--text-dark); margin-top: -20px;">99+ Coins
+                </div>
+            </div>
+            <!-- Floating Elements -->
+            <div class="floating-coin" style="top: 10%; right: 10%; animation-delay: 0s;">⭐</div>
+            <div class="floating-coin" style="bottom: 20%; left: 5%; animation-delay: 2s;">🏆</div>
+            <div class="floating-coin" style="top: 40%; left: 20%; animation-delay: 4s;">📈</div>
+        </div>
+    </section>
+
+    <!-- FEATURES SECTION -->
+    <section id="features" style="padding: 80px 10%; background: #FDFEFE;">
+        <div style="text-align: center; margin-bottom: 60px;">
+            <h2 style="font-size: 2.5rem; font-weight: 800; margin-bottom: 16px;" data-i18n="features_title">Nima uchun
+                <span style="color: var(--primary);">NINERS</span>?</h2>
+            <p style="color: var(--text-muted); font-size: 1.1rem; max-width: 600px; margin: 0 auto;"
+                data-i18n="features_subtitle">
+                Bizning o'quv markazimiz shunchaki bilim bermaydi, balki o'quvchilarni doimiy rivojlanishga
+                rag'batlantiradi.
+            </p>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px;">
+            <div class="card" style="text-align: center; padding: 40px 24px;">
+                <div
+                    style="font-size: 3.5rem; margin-bottom: 24px; background: #FFF9E6; width: 100px; height: 100px; line-height: 100px; border-radius: 50%; margin-left: auto; margin-right: auto;">
+                    🎮</div>
+                <h3 style="font-size: 1.5rem; margin-bottom: 12px;" data-i18n="feature_game_title">Gamifikatsiya</h3>
+                <p style="color: var(--text-muted);" data-i18n="feature_game_desc">
+                    Darslar zerikarli bo'lmaydi. Har bir vazifa, har bir dars xuddi o'yin kabi qiziqarli. XP va Coinlar
+                    yig'ing.
+                </p>
+            </div>
+
+            <div class="card" style="text-align: center; padding: 40px 24px;">
+                <div
+                    style="font-size: 3.5rem; margin-bottom: 24px; background: #E6F4FF; width: 100px; height: 100px; line-height: 100px; border-radius: 50%; margin-left: auto; margin-right: auto;">
+                    🛍️</div>
+                <h3 style="font-size: 1.5rem; margin-bottom: 12px;" data-i18n="feature_gift_title">Real Sovg'alar</h3>
+                <p style="color: var(--text-muted);" data-i18n="feature_gift_desc">
+                    Yig'gan Coinlaringizni shunchaki saqlab qo'ymang. Ularni marketimizda real qimmatbaho sovg'alarga
+                    almashtiring.
+                </p>
+            </div>
+
+            <div class="card" style="text-align: center; padding: 40px 24px;">
+                <div
+                    style="font-size: 3.5rem; margin-bottom: 24px; background: #FFF0F0; width: 100px; height: 100px; line-height: 100px; border-radius: 50%; margin-left: auto; margin-right: auto;">
+                    📊</div>
+                <h3 style="font-size: 1.5rem; margin-bottom: 12px;" data-i18n="feature_smart_title">Aqlli Nazorat</h3>
+                <p style="color: var(--text-muted);" data-i18n="feature_smart_desc">
+                    Ota-onalar va o'qituvchilar uchun maxsus panellar orqali o'quvchining o'sish dinamikasini kuzatib
+                    boring.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- STATS SECTION -->
+    <section id="stats"
+        style="padding: 60px 10%; background: #2D3436; color: white; display: flex; justify-content: space-around; flex-wrap: wrap; text-align: center;">
+        <div style="margin: 20px;">
+            <div style="font-size: 3rem; font-weight: 800; color: var(--primary);">500+</div>
+            <div style="font-size: 1.1rem; opacity: 0.8;" data-i18n="stats_students">Faol O'quvchilar</div>
+        </div>
+        <div style="margin: 20px;">
+            <div style="font-size: 3rem; font-weight: 800; color: var(--primary);">25k+</div>
+            <div style="font-size: 1.1rem; opacity: 0.8;" data-i18n="stats_coins">Tarqatilgan Coinlar</div>
+        </div>
+        <div style="margin: 20px;">
+            <div style="font-size: 3rem; font-weight: 800; color: var(--primary);">1200+</div>
+            <div style="font-size: 1.1rem; opacity: 0.8;" data-i18n="stats_tests">Muvaffaqiyatli Testlar</div>
+        </div>
+        <div style="margin: 20px;">
+            <div style="font-size: 3rem; font-weight: 800; color: var(--primary);">50+</div>
+            <div style="font-size: 1.1rem; opacity: 0.8;" data-i18n="stats_teachers">Malakali Ustozlar</div>
+        </div>
+    </section>
+
+    </section>
+
+    <!-- COURSES SECTION -->
+    <section id="courses" style="padding: 80px 10%; background: #F8F9FA;">
+        <div style="text-align: center; margin-bottom: 60px;">
+            <h2 style="font-size: 2.5rem; font-weight: 800; margin-bottom: 16px;" data-i18n="courses_title">Bizning
+                <span style="color: var(--primary);">Kurslar</span></h2>
+            <p style="color: var(--text-muted); font-size: 1.1rem; max-width: 600px; margin: 0 auto;"
+                data-i18n="courses_subtitle">
+                Barcha yoshdagilar va darajalar uchun moslashtirilgan o'quv dasturlari.
+            </p>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 24px;">
+            <div class="card" style="border: none; box-shadow: 0 10px 30px rgba(0,0,0,0.05);">
+                <div
+                    style="height: 160px; background: #FFD700; border-radius: 12px; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; font-size: 4rem;">
+                    🇬🇧</div>
+                <h3 style="margin-bottom: 10px;">General English</h3>
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px;" data-i18n="course_ge_desc">
+                    Grammatika, so'z boyligi va
+                    muloqot ko'nikmalarini mukammal o'rganing.</p>
+                <a href="#" class="btn btn-secondary"
+                    style="width: 100%; justify-content: center; text-decoration: none "
+                    data-i18n="btn_details">Batafsil</a>
+            </div>
+
+            <div class="card" style="border: none; box-shadow: 0 10px 30px rgba(0,0,0,0.05);">
+                <div
+                    style="height: 160px; background: #FF6B6B; border-radius: 12px; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; font-size: 4rem; color: white;">
+                    📚</div>
+                <h3 style="margin-bottom: 10px;">IELTS & CEFR</h3>
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px;"
+                    data-i18n="course_ielts_desc">Xalqaro imtihonlarga
+                    tayyorgarlik ko'ring va yuqori ballarni qo'lga kiriting.</p>
+                <a href="#" class="btn btn-secondary"
+                    style="width: 100%; justify-content: center;  text-decoration: none"
+                    data-i18n="btn_details">Batafsil</a>
+            </div>
+
+            <div class="card" style="border: none; box-shadow: 0 10px 30px rgba(0,0,0,0.05);">
+                <div
+                    style="height: 160px; background: #6C5CE7; border-radius: 12px; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; font-size: 4rem; color: white;">
+                    🧮</div>
+                <h3 style="margin-bottom: 10px;">Matematika</h3>
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px;"
+                    data-i18n="course_math_desc">Mantiqiy fikrlash va
+                    masalalar yechish ko'nikmalaringizni oshiring.</p>
+                <a href="#" class="btn btn-secondary"
+                    style="width: 100%; justify-content: center;  text-decoration: none"
+                    data-i18n="btn_details">Batafsil</a>
+            </div>
+
+            <div class="card" style="border: none; box-shadow: 0 10px 30px rgba(0,0,0,0.05);">
+                <div
+                    style="height: 160px; background: #00CEC9; border-radius: 12px; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; font-size: 4rem; color: white;">
+                    🧸</div>
+                <h3 style="margin-bottom: 10px;">Kids English</h3>
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px;"
+                    data-i18n="course_kids_desc">Bolalar uchun maxsus
+                    o'yinlar va qiziqarli mashg'ulotlar orqali ingliz tili.</p>
+                <a href="#" class="btn btn-secondary"
+                    style="width: 100%; justify-content: center; text-decoration: none"
+                    data-i18n="btn_details">Batafsil</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS SECTION -->
+    <section id="reviews" style="padding: 80px 10%; background: #FDFEFE;">
+        <div style="text-align: center; margin-bottom: 60px;">
+            <h2 style="font-size: 2.5rem; font-weight: 800; margin-bottom: 16px;" data-i18n="reviews_title">
+                O'quvchilarimiz <span style="color: var(--primary);">Fikri</span></h2>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px;">
+            <div class="card" style="background: #FFF; border: 1px solid #EEE;">
+                <div style="display: flex; gap: 4px; color: #FFA500; margin-bottom: 15px;">⭐⭐⭐⭐⭐</div>
+                <p style="font-style: italic; color: #555; margin-bottom: 20px;" data-i18n="review_1">"Niners
+                    platformasi tufayli o'qishga
+                    bo'lgan qiziqishim ortdi. Coinlar yig'ib, o'zimga kerakli kitoblarni sotib oldim. Zo'r!"</p>
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <div style="width: 50px; height: 50px; background: #DDD; border-radius: 50%;"></div>
+                    <div>
+                        <h4 style="font-weight: 700;">Azizbek K.</h4>
+                        <span style="font-size: 0.8rem; color: #999;">IELTS Student</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" style="background: #FFF; border: 1px solid #EEE;">
+                <div style="display: flex; gap: 4px; color: #FFA500; margin-bottom: 15px;">⭐⭐⭐⭐⭐</div>
+                <p style="font-style: italic; color: #555; margin-bottom: 20px;" data-i18n="review_2">"Farzandimning
+                    natijalarini uyda
+                    o'tirib kuzata olaman. O'qituvchilar juda malakali va e'tiborli."</p>
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <div style="width: 50px; height: 50px; background: #DDD; border-radius: 50%;"></div>
+                    <div>
+                        <h4 style="font-weight: 700;">Malika opa</h4>
+                        <span style="font-size: 0.8rem; color: #999;">Ota-ona</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" style="background: #FFF; border: 1px solid #EEE;">
+                <div style="display: flex; gap: 4px; color: #FFA500; margin-bottom: 15px;">⭐⭐⭐⭐⭐</div>
+                <p style="font-style: italic; color: #555; margin-bottom: 20px;" data-i18n="review_3">"Marketdagi
+                    sovg'alar juda motivatsiya
+                    beradi. Har kuni darsga kechikmasdan borishga harakat qilaman."</p>
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <div style="width: 50px; height: 50px; background: #DDD; border-radius: 50%;"></div>
+                    <div>
+                        <h4 style="font-weight: 700;">Javohir M.</h4>
+                        <span style="font-size: 0.8rem; color: #999;">General English Student</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer style="background: #1A1A1A; color: white; padding: 60px 10%; margin-top: 50px;">
+        <div
+            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; margin-bottom: 40px;">
+            <div>
+                <div style="font-size: 1.8rem; font-weight: 800; margin-bottom: 20px;"><span>NINERS</span>.UZ</div>
+                <p style="opacity: 0.7; font-size: 0.9rem;" data-i18n="footer_slogan">Kelajak ta'limi bugun shu yerda
+                    boshlanadi.</p>
+            </div>
+
+            <div>
+                <h4 style="margin-bottom: 20px; font-weight: 700;" data-i18n="footer_pages">Sahifalar</h4>
+                <ul style="list-style: none; opacity: 0.8;">
+                    <li style="margin-bottom: 10px;"><a href="#" style="color: white; text-decoration: none;"
+                            data-i18n="footer_home">Bosh
+                            sahifa</a></li>
+                    <li style="margin-bottom: 10px;"><a href="#courses" style="color: white; text-decoration: none;"
+                            data-i18n="courses_title">Kurslar</a></li>
+                    <li style="margin-bottom: 10px;"><a href="#features" style="color: white; text-decoration: none;"
+                            data-i18n="footer_about">Biz haqimizda</a></li>
+                    <li style="margin-bottom: 10px;"><a href="login.html" style="color: white; text-decoration: none;"
+                            data-i18n="landing_btn_login">Kirish</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 style="margin-bottom: 20px; font-weight: 700;" data-i18n="footer_contact_title">Kontakt</h4>
+                <p style="opacity: 0.8; margin-bottom: 10px;">📍 Toshkent sh., Chilonzor tumani</p>
+                <p style="opacity: 0.8; margin-bottom: 10px;">📞 +998 90 123 45 67</p>
+                <p style="opacity: 0.8; margin-bottom: 10px;">📧 info@niners.uz</p>
+
+                <div style="margin-top: 20px; display: flex; gap: 15px;">
+                    <a href="#" style="color: white; font-size: 1.2rem;">Telegram</a>
+                    <a href="#" style="color: white; font-size: 1.2rem;">Instagram</a>
+                </div>
+            </div>
+        </div>
+        <div
+            style="text-align: center; padding-top: 40px; border-top: 1px solid rgba(255,255,255,0.1); opacity: 0.5; font-size: 0.9rem;">
+            &copy; 2024 Niners.uz. All rights reserved.
+        </div>
+    </footer>
+
+    <style>
+        @keyframes morph {
+            0% {
+                border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+            }
+
+            100% {
+                border-radius: 70% 30% 50% 50% / 30% 60% 40% 70%;
+            }
+        }
+    </style>
+
+    <script src="js/translations.js"></script>
+    <script>
+        LanguageModule.init();
+
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('mainHeader');
+            if (window.scrollY > 50) header.classList.add('scrolled');
+            else header.classList.remove('scrolled');
+        });
+    </script>
+</body>
+
+</html>

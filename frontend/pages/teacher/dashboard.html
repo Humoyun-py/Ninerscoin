@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Dashboard | Niners.uz</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../styles/main.css">
+</head>
+
+<body>
+    <div class="dashboard-grid">
+        <div id="sidebarContainer"></div>
+        <main class="main-content">
+            <header style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px;">
+                <div style="display: flex; align-items: center; gap: 20px;">
+                    <div
+                        style="width: 60px; height: 60px; background: var(--primary-gradient); border-radius: 15px; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.8rem; font-weight: 900; box-shadow: 0 8px 20px rgba(255, 215, 0, 0.3);">
+                        U
+                    </div>
+                    <div>
+                        <h2 id="userName" style="font-size: 1.5rem; margin-bottom: 4px;">Loading...</h2>
+                        <p style="color: var(--text-muted); font-size: 0.9rem;" data-i18n="teacher_console">Teacher and
+                            instructor console</p>
+                    </div>
+                </div>
+                <div class="user-profile" style="display: flex; align-items: center; gap: 12px;">
+                    <button class="btn btn-primary" onclick="TeacherModule.awardCoinsToStudent()"
+                        style="box-shadow: 0 4px 15px rgba(255, 215, 0, 0.2);" data-i18n="award_student">✨
+                        Award Student</button>
+                </div>
+            </header>
+
+            <div
+                style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px; margin-bottom: 40px;">
+                <div class="card" style="padding: 24px;">
+                    <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 8px;"
+                        data-i18n="active_groups">Active Groups</p>
+                    <h3 id="classCount" style="font-size: 2rem;">0</h3>
+                </div>
+                <div class="card" style="padding: 24px;">
+                    <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 8px;"
+                        data-i18n="homework_pending">Homework Pending</p>
+                    <h3 style="font-size: 2rem;">0</h3>
+                </div>
+                <div class="card" style="padding: 24px;">
+                    <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 8px;"
+                        data-i18n="teacher_rating">Teacher Rating</p>
+                    <h3 id="rating" style="font-size: 2rem;">0 ⭐</h3>
+                </div>
+            </div>
+
+            <!-- MY STUDENTS SECTION (NEW) -->
+            <div class="card" style="padding: 24px; margin-bottom: 40px;">
+                <h3 style="margin-bottom: 20px; display: flex; align-items: center; gap: 10px;"
+                    data-i18n="my_students_title">👨‍🎓 Your Students</h3>
+                <div id="myStudentsContainer">
+                    <p class="text-muted" data-i18n="loading">Loading...</p>
+                </div>
+            </div>
+
+            <div class="card" style="padding: 24px;">
+                <h3 style="margin-bottom: 20px; display: flex; align-items: center; gap: 10px;"
+                    data-i18n="groups_list_title">📋 Groups List</h3>
+                <table style="width: 100%; border-collapse: collapse;">
+                    <thead>
+                        <tr
+                            style="border-bottom: 2px solid var(--border-light); text-align: left; color: var(--text-muted); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px;">
+                            <th style="padding: 15px;" data-i18n="group_name">Group Name</th>
+                            <th style="padding: 15px;" data-i18n="students_count">Students count</th>
+                            <th style="padding: 15px;" data-i18n="action">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="classList">
+                        <tr>
+                            <td colspan="3" style="text-align:center; padding:30px; color: var(--text-muted);"
+                                data-i18n="loading">Loading groups...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <script src="../../js/api.js"></script>
+    </main>
+    </div>
+    <script src="../../js/translations.js"></script>
+    <script src="../../js/teacher.js"></script>
+    <script src="../../js/sidebar-loader.js"></script>
+    <script>
+        document.getElementById('userName').innerText = localStorage.getItem('user_name') || 'Teacher';
+        LanguageModule.init();
+        TeacherModule.initDashboard();
+    </script>
+</body>
+
+</html>

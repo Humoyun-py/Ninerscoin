@@ -1,0 +1,46 @@
+{
+    "users": [
+        {
+            "id": 1,
+            "username": "admin",
+            "role": "admin"
+        },
+        {
+            "id": 2,
+            "username": "director",
+            "role": "director"
+        },
+        {
+            "id": 3,
+            "username": "john_doe",
+            "role": "teacher"
+        },
+        {
+            "id": 4,
+            "username": "jane_smith",
+            "role": "teacher"
+        },
+        {
+            "id": 5,
+            "username": "student1",
+            "role": "student"
+        },
+        {
+            "id": 6,
+            "username": "student2",
+            "role": "student"
+        }
+    ],
+    "students": [
+        {
+            "id": 1,
+            "user_id": 5,
+            "class_id": 3
+        },
+        {
+            "id": 2,
+            "user_id": 6,
+            "class_id": 6
+        }
+    ]
+}

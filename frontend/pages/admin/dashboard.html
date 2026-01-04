@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard | Niners.uz</title>
+    <link rel="stylesheet" href="../../styles/main.css">
+</head>
+
+<body class="dashboard-grid">
+    <div id="sidebarContainer"></div>
+    <main class="main-content">
+        <header style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px;">
+            <div style="flex-grow: 1;">
+                <h2 id="userNameDisplay" data-i18n="admin_console">Admin Management Console</h2>
+                <p style="color: var(--text-muted);" data-i18n="admin_subtitle">Manage users, classes, and system
+                    integrity.</p>
+            </div>
+            <button onclick="requestDirectorApproval()" class="btn btn-secondary"
+                style="border-color: var(--primary); font-weight: 800;" data-i18n="request_director">
+                📢 Request Director Approval
+            </button>
+        </header>
+
+        <div
+            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 24px; margin-bottom: 40px;">
+            <div class="card stat-card">
+                <p style="color: var(--text-muted); font-weight: 600;" data-i18n="total_users">Total Users</p>
+                <h3 id="totalUsers" style="font-size: 2.5rem; margin-top: 8px;">0</h3>
+            </div>
+            <div class="card stat-card">
+                <p style="color: var(--text-muted); font-weight: 600;" data-i18n="total_classes">Total Groups/Classes
+                </p>
+                <h3 id="totalClasses" style="font-size: 2.5rem; margin-top: 8px;">0</h3>
+            </div>
+            <div class="card stat-card" style="border-left: 5px solid #FFD700;">
+                <p style="color: var(--text-muted); font-weight: 600;" data-i18n="new_appeals">New Appeals/Complaints
+                </p>
+                <h3 id="pendingComplaints" style="font-size: 2.5rem; margin-top: 8px; color: #FFA500;">0</h3>
+            </div>
+        </div>
+
+        <section style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px;">
+            <div class="card" style="padding: 24px;">
+                <h3 style="margin-bottom: 20px;" data-i18n="recently_added_users">Recently Added Users</h3>
+                <div class="table-wrapper">
+                    <table class="responsive-table">
+                        <thead>
+                            <tr>
+                                <th data-i18n="user_name">Name</th>
+                                <th data-i18n="user_role">Role</th>
+                                <th data-i18n="user_status">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="userTableBody">
+                            <tr>
+                                <td colspan="3" data-label="Status" style="text-align:center; padding:20px;"
+                                    data-i18n="loading">Loading
+                                    users...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="card" style="background: #FAFAFA; border: 1px dashed #CCC;">
+                <h3 style="margin-bottom: 15px;" data-i18n="quick_management">Quick Management</h3>
+                <div style="display: flex; flex-direction: column; gap: 10px;">
+                    <a href="users.html" class="btn btn-secondary" style="justify-content: start;"
+                        data-i18n="student_teacher_crud">👥 Student/Teacher
+                        CRUD</a>
+                    <a href="classes.html" class="btn btn-secondary" style="justify-content: start;"
+                        data-i18n="group_management">🏫 Group
+                        Management</a>
+                    <a href="coin-control.html" class="btn btn-secondary" style="justify-content: start;"
+                        data-i18n="coin_adjustments">🟡 Coin
+                        Adjustments</a>
+                    <a href="appeals.html" class="btn btn-secondary" style="justify-content: start;"
+                        data-i18n="appeals_feedbacks">📩 Appeals &
+                        Feedbacks</a>
+                    <button onclick="AdminModule.openShopManager()" class="btn btn-secondary"
+                        style="justify-content: start; border-color: var(--primary);" data-i18n="manage_shop">🛍️ Shop
+                        Control
+                        (Add/Edit)</button>
+                    <button onclick="runPaymentCheck()" class="btn btn-secondary"
+                        style="justify-content: start; border-color: #FFE0E0; color: #DC3545;"
+                        data-i18n="check_payments">🚨 Check Payments
+                        (Auto-Block)</button>
+                </div>
+    </main>
+    </div>
+    <script src="../../js/translations.js"></script>
+    <script src="../../js/api.js"></script>
+    <script src="../../js/admin.js"></script>
+    <script src="../../js/sidebar-loader.js"></script>
+    <script>
+        async function requestDirectorApproval() {
+            const title = prompt("Request title (e.g., Large coin allocation):");
+            if (!title) return;
+            const desc = prompt("Detailed information:");
+            try {
+                await api.post('/admin/approval-requests', { title, description: desc });
+                alert("Request sent to director!");
+            } catch (e) { alert("Error!"); }
+        }
+
+        async function runPaymentCheck() {
+            if (!confirm("Start automatic blocking for unpaid students?")) return;
+            try {
+                const res = await api.post('/admin/payment-check', {});
+                alert(res.msg);
+                location.reload();
+            } catch (e) { alert("Error!"); }
+        }
+
+        async function init() {
+            LanguageModule.init();
+            AdminModule.initDashboard();
+            const complaints = await api.get('/admin/complaints');
+            document.getElementById('pendingComplaints').innerText = complaints.filter(c => c.status === 'open').length;
+        }
+        init();
+    </script>
+</body>
+
+</html>
